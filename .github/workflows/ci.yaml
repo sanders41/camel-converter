@@ -46,10 +46,11 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         experimental: [false]
         include:
-          - os: ubuntu-latest
-            python-version: "3.10.0-alpha - 3.10.0"
+          - python-version: "3.10.0-alpha - 3.10.0"
+            os: ubuntu-latest
             experimental: true
     runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}

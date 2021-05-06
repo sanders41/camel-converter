@@ -8,7 +8,7 @@ readme = "README.md"
 repository = "https://github.com/sanders41/camel-converter"
 homepage = "https://github.com/sanders41/camel-converter"
 documentation = "https://github.com/sanders41/camel-converter"
-keywords = ["python"]
+keywords = ["python", "pydantic"]
 classifiers=[
   "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",

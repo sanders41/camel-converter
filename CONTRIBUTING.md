@@ -65,14 +65,15 @@ Windows
 # Create the environment
 python -m venv venv
 
-#Activate the environment. Use activate.bat for cmd.exe
+# Activate the environment. Use activate.bat for cmd.exe
 venv\Scripts\Activate.ps1
 ```
 
-Next the requirements need to be installed.
+Next the requirements need to be installed. Make sure to include the `-E pydantic` option in order
+to include the optional pydantic install.
 
 ```sh
-poetry install
+poetry install -E pydantic
 ```
 
 ### Creating a branch

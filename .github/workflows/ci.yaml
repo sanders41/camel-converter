@@ -22,7 +22,7 @@ jobs:
         echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
     - name: Install Dependencies
       run: |
-        poetry install
+        poetry install -E pydantic
     - name: Isort check
       run: |
         poetry run isort camel_converter tests --check-only
@@ -63,7 +63,7 @@ jobs:
         echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
     - name: Install Dependencies
       run: |
-        poetry install
+        poetry install -E pydantic
     - name: Test with pytest
       run: |
         poetry run pytest --cov=sas7bdat_converter --cov-report=xml

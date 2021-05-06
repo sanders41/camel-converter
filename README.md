@@ -82,6 +82,32 @@ class AnotherModel(MyBaseModel):
     another_field: int
 ```
 
+### Optional Extras
+
+An optional extra is provided for [Pydantic](https://pydantic-docs.helpmanual.io/) that provides a
+base class to automatically convert between snake case and camel case. To use this Pydantic class
+install camel converter with:
+
+```sh
+pip install camel-converter[pydantic]
+```
+
+Then your Pydantic classes can inherit from CamelBase.
+
+```py
+from camel_converter.pydantic_base import CamelBase
+
+
+class MyModel(CamelBase):
+    test_field: str
+
+
+my_data = MyModel(**{"testField": "my value"})
+print(my_data.test_field)
+```
+
+will result in `my value` being printed.
+
 ## Contributing
 
 If you are interesting in contributing to this project please see our [contributing guide](CONTRIBUTING.md)

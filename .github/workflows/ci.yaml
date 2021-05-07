@@ -40,7 +40,6 @@ jobs:
         poetry run mypy camel_converter
   testing:
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
@@ -68,9 +67,11 @@ jobs:
         curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
         echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
     - name: Install Dependencies
+      continue-on-error: ${{ matrix.experimental }}
       run: |
         poetry install -E pydantic
     - name: Test with pytest
+      continue-on-error: ${{ matrix.experimental }}
       run: |
         poetry run pytest --cov=sas7bdat_converter --cov-report=xml
     - name: Upload coverage

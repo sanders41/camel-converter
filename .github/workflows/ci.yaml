@@ -75,6 +75,7 @@ jobs:
       run: |
         poetry run pytest --cov=sas7bdat_converter --cov-report=xml
     - name: Upload coverage
+      continue-on-error: ${{ matrix.experimental }}
       uses: codecov/codecov-action@v1
       with:
         fail_ci_if_error: true

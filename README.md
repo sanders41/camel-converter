@@ -40,48 +40,6 @@ snake_case. The purpose of this pacakgae is to help convert between the two form
 
   This will convert `my_string` into `MyString`
 
-If you are using [Pydantic](https://pydantic-docs.helpmanual.io/), a common usage of Pydantic where
-this package is useful is in [FastAPI](https://fastapi.tiangolo.com/) you can use this package in
-your models to automatically do the conversion.
-
-```py
-from pydantic import BaseModel
-
-from camel_converter import to_camel
-
-
-class MyModel(BaseModel):
-    class Config:
-        alias_generator = to_camel
-        allow_population_by_field_name = True
-
-    my_field: str
-```
-
-With setting up your model in this way `myField` from the source, i.e. JSON data, will map to `my_field` in your model.
-
-You can also setup a model to inherit the config settings from so the `class Config` does not have to be manually set on every model:
-
-```py
-from pydantic import BaseModel
-
-from camel_converter import to_camel
-
-
-class MyBaseModel(BaseModel):
-    class Config:
-        alias_generator = to_camel
-        allow_population_by_field_name = True
-
-
-class MyModel(MyBaseModel):
-    my_field: str
-
-
-class AnotherModel(MyBaseModel):
-    another_field: int
-```
-
 ### Optional Extras
 
 An optional extra is provided for [Pydantic](https://pydantic-docs.helpmanual.io/) that provides a
@@ -107,6 +65,8 @@ print(my_data.test_field)
 ```
 
 will result in `my value` being printed.
+
+With setting up your model in this way `myField` from the source, i.e. JSON data, will map to `my_field` in your model.
 
 ## Contributing
 

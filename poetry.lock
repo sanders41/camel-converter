@@ -453,7 +453,7 @@ pydantic = ["pydantic"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "42ce8d604b395b5e3d6201b09dd95d55e4eea2d9fde1e8c8791d78276f58bec1"
+content-hash = "75f48418ee97559da0ae4166d11de059035904ae28e2aa162416ca4efbe4a4ee"
 
 [metadata.files]
 appdirs = [

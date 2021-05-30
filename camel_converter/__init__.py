@@ -10,7 +10,7 @@ def to_camel(snake_string: str) -> str:
 
 
 def to_snake(camel_string: str) -> str:
-    words = findall("[a-zA-Z][^A-Z]*", camel_string)
+    words = findall("([a-zA-Z][^A-Z0-9]*|[0-9]+)", camel_string)
 
     return "_".join(word.lower() for word in words)
 

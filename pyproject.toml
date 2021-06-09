@@ -68,3 +68,6 @@ src_paths = ["camel_converter", "tests"]
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "--cov=camel_converter"
+
+[tool.mypy]
+disallow_untyped_defs = true

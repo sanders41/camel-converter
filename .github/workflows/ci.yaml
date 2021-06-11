@@ -62,6 +62,10 @@ jobs:
       run: |
         curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
         echo "${HOME}/.local/bin" >> $GITHUB_PATH
+    - name: Poetry configuration
+      if: matrix.python-version == '3.10.0-beta - 3.10.0'  # Poetry installs are currently failing with the experimental installer on 3.10
+      run: |
+        poetry config experimental.new-installer false
     - name: Install Dependencies
       run: |
         poetry install -E pydantic

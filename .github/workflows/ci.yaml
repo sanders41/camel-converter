@@ -53,7 +53,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.7, 3.8, 3.9, "3.10.0-beta - 3.10.0"]
+        python-version: [3.7, 3.8, 3.9, "3.10"]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -74,7 +74,7 @@ jobs:
         curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
         echo "${HOME}/.local/bin" >> $GITHUB_PATH
     - name: Poetry configuration
-      if: matrix.python-version == '3.10.0-beta - 3.10.0'  # Poetry installs are currently failing with the experimental installer on 3.10
+      if: matrix.python-version == '3.10'  # Poetry installs are currently failing with the experimental installer on 3.10
       run: |
         poetry config experimental.new-installer false
     - name: Configure poetry

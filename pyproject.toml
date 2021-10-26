@@ -72,4 +72,9 @@ minversion = "6.0"
 addopts = "--cov=camel_converter"
 
 [tool.mypy]
+check_untyped_defs = true
 disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false

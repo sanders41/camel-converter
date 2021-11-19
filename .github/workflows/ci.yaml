@@ -85,7 +85,7 @@ jobs:
         restore-keys: venv-${{ runner.os }}-poetry-
     - name: Ensure cache is healthy on Windows
       if: (steps.poetry-cache.outputs.cache-hit == 'true' && matrix.os == 'windows-latest')
-      run: timeout 1-s poetry run pip --version || Remove-Item -Recurse -Force
+      run: timeout 1-s poetry run pip --version || Remove-Item -Recurse -Force .venv
     - name: Ensure cache is health on Linux and Mac
       if: (steps.poetry-cache.outputs.cache-hit == 'true' && matrix.os != 'windows-latest')
       run: timeout 10s poetry run pip --version || rm -rf .venv

@@ -33,7 +33,6 @@ jobs:
         restore-keys: venv-${{ runner.os }}-poetry-
     - name: Ensure cache is healthy
       if: steps.poetry-cache.outputs.cache-hit == 'true'
-      shell: bash
       run: timeout 10s poetry run pip --version || rm -rf .venv
     - name: Install Dependencies
       run: |
@@ -84,7 +83,7 @@ jobs:
         path: .venv
         key: venv-${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
         restore-keys: venv-${{ runner.os }}-poetry-
-    - name: Ensure cache is healthy
+    - name: Ensure cache is health
       if: steps.poetry-cache.outputs.cache-hit == 'true'
       shell: bash
       run: timeout 10s poetry run pip --version || rm -rf .venv

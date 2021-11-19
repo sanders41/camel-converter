@@ -36,7 +36,9 @@ jobs:
       shell: bash
       run: timeout 10s poetry run pip --version || rm -rf .venv
     - name: Install Dependencies
-      run: poetry install -E pydantic
+      run: |
+        echo steps.poetry-cache.outputs.cache-hit
+        poetry install -E pydantic
     - name: mypy check
       run: |
         poetry run mypy camel_converter

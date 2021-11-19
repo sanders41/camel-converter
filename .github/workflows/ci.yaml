@@ -37,7 +37,6 @@ jobs:
       run: timeout 10s poetry run pip --version || rm -rf .venv
     - name: Install Dependencies
       run: |
-        echo "${{ steps.poetry-cache.outputs.cache-hit }}"
         poetry install -E pydantic
     - name: mypy check
       run: |
@@ -86,7 +85,7 @@ jobs:
         key: venv-${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
         restore-keys: venv-${{ runner.os }}-poetry-
     - name: Ensure cache is healthy
-      if: steps.poetry-cache.outputs.cache-hit == true
+      if: steps.poetry-cache.outputs.cache-hit == 'true'
       shell: bash
       run: timeout 10s poetry run pip --version || rm -rf .venv
     - name: Install Dependencies

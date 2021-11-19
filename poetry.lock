@@ -531,7 +531,7 @@ pydantic = ["pydantic"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "7f4c9ee804f97455f17c5df10fcfc8f015291e70511252ffdb09212862ee3d43"
+content-hash = "7419279f6824a42600af5dc13890edd87b7554e96a80f4e512ad1be0fd3c767b"
 
 [metadata.files]
 atomicwrites = [

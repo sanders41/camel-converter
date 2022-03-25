@@ -69,7 +69,7 @@ src_paths = ["camel_converter", "tests"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--cov=camel_converter"
+addopts = "--cov=camel_converter --cov-report term-missing"
 
 [tool.mypy]
 check_untyped_defs = true

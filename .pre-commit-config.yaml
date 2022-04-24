@@ -2,9 +2,11 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.2.0
     hooks:
+    - id: check-added-large-files
     - id: check-toml
     - id: check-yaml
     - id: end-of-file-fixer
+    - id: debug-statements
     - id: trailing-whitespace
   - repo: https://github.com/PyCQA/isort
     rev: 5.10.1

@@ -27,7 +27,7 @@ pydantic = {version = "^1.8.2", optional = true, extras=["pydantic"]}
 pydantic = ["pydantic"]
 
 [tool.poetry.dev-dependencies]
-black = "^22.3.0"
+black = "^22.6.0"
 flake8 = "^4.0.1"
 isort = "^5.10.1"
 mypy = "^0.961"

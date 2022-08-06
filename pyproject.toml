@@ -21,7 +21,7 @@ include = ["camel_converter/py.typed"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pydantic = {version = "^1.8.2", optional = true, extras=["pydantic"]}
+pydantic = {version = "^1.8.2", optional = true}
 
 [tool.poetry.extras]
 pydantic = ["pydantic"]

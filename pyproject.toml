@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "camel-converter"
-version = "1.0.3"
+version = "1.0.6"
 description = "Converts a string from snake case to camel case or camel case to snake case"
 authors = ["Paul Sanders <psanders1@gmail.com>"]
 license = "MIT"
@@ -21,20 +21,20 @@ include = ["camel_converter/py.typed"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pydantic = {version = "^1.8.2", optional = true, extras=["pydantic"]}
+pydantic = {version = "^1.8.2", optional = true}
 
 [tool.poetry.extras]
 pydantic = ["pydantic"]
 
 [tool.poetry.dev-dependencies]
-black = "^22.3.0"
-flake8 = "^4.0.1"
+black = "^22.6.0"
+flake8 = "^5.0.4"
 isort = "^5.10.1"
-mypy = "^0.950"
-pre-commit = "^2.18.1"
+mypy = "^0.971"
+pre-commit = "^2.20.0"
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
-tox = "^3.25.0"
+tox = "^3.25.1"
 flake8-docstrings = "^1.6.0"
 
 [build-system]

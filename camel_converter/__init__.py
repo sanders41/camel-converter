@@ -1,8 +1,12 @@
 from __future__ import annotations
 
-from re import findall
+import re
+from functools import lru_cache
+
+to_camel_pattern = re.compile(r"([a-zA-Z][^A-Z0-9]*|[0-9]+)")
 
 
+@lru_cache(maxsize=256)
 def to_camel(snake_string: str) -> str:
     """Converts a snake case string to camel case.
 
@@ -17,6 +21,7 @@ def to_camel(snake_string: str) -> str:
     return words[0] + "".join(word.title() for word in words[1:])
 
 
+@lru_cache(maxsize=256)
 def to_snake(camel_string: str) -> str:
     """Converts a camel case string to snake case.
 
@@ -26,11 +31,12 @@ def to_snake(camel_string: str) -> str:
     Returns:
         The string in snake case format. For example my_variable.
     """
-    words = findall("([a-zA-Z][^A-Z0-9]*|[0-9]+)", camel_string)
+    words = to_camel_pattern.findall(camel_string)
 
     return "_".join(word.lower() for word in words)
 
 
+@lru_cache(maxsize=256)
 def to_upper_camel(snake_string: str) -> str:
     """Converts a snake case string to camel case.
 

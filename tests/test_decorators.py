@@ -1,13 +1,6 @@
 import pytest
 
-from camel_converter import (
-    dict_to_camel,
-    dict_to_pascal,
-    dict_to_snake,
-    to_camel,
-    to_pascal,
-    to_snake,
-)
+from camel_converter.decorators import dict_to_camel, dict_to_pascal, dict_to_snake
 
 
 @pytest.mark.parametrize(
@@ -48,7 +41,11 @@ from camel_converter import (
     ],
 )
 def test_dict_to_camel(test_dict, expected):
-    assert dict_to_camel(test_dict) == expected
+    @dict_to_camel
+    def test_func():
+        return test_dict
+
+    assert test_func() == expected
 
 
 @pytest.mark.parametrize(
@@ -89,7 +86,11 @@ def test_dict_to_camel(test_dict, expected):
     ],
 )
 def test_dict_to_pascal(test_dict, expected):
-    assert dict_to_pascal(test_dict) == expected
+    @dict_to_pascal
+    def test_func():
+        return test_dict
+
+    assert test_func() == expected
 
 
 @pytest.mark.parametrize(
@@ -126,32 +127,8 @@ def test_dict_to_pascal(test_dict, expected):
     ],
 )
 def test_dict_to_snake(test_dict, expected):
-    assert dict_to_snake(test_dict) == expected
+    @dict_to_snake
+    def test_func():
+        return test_dict
 
-
-@pytest.mark.parametrize(
-    "test_str, expected_str",
-    [("this_is_a_test", "thisIsATest"), ("this_is_a_12_test", "thisIsA12Test")],
-)
-def test_to_camel(test_str, expected_str):
-    assert to_camel(test_str) == expected_str
-
-
-@pytest.mark.parametrize(
-    "test_str, expected_str",
-    [("this_is_a_test", "ThisIsATest"), ("this_is_a_12_test", "ThisIsA12Test")],
-)
-def test_to_pascal(test_str, expected_str):
-    assert to_pascal(test_str) == expected_str
-
-
-@pytest.mark.parametrize(
-    "test_str, expected_str",
-    [
-        ("thisIsATest", "this_is_a_test"),
-        ("ThisIsATest", "this_is_a_test"),
-        ("aTestWith12Number", "a_test_with_12_number"),
-    ],
-)
-def test_to_snake(test_str, expected_str):
-    assert to_snake(test_str) == expected_str
+    assert test_func() == expected

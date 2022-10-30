@@ -48,6 +48,16 @@ def test_dict_to_camel(test_dict, expected):
     assert test_func() == expected
 
 
+def test_dict_to_camel_non_dict():
+    expected = 1
+
+    @dict_to_camel
+    def test_func():
+        return expected
+
+    assert test_func() == expected
+
+
 @pytest.mark.parametrize(
     "test_dict, expected",
     [
@@ -93,6 +103,16 @@ def test_dict_to_pascal(test_dict, expected):
     assert test_func() == expected
 
 
+def test_dict_to_pascal_non_dict():
+    expected = 1
+
+    @dict_to_pascal
+    def test_func():
+        return expected
+
+    assert test_func() == expected
+
+
 @pytest.mark.parametrize(
     "test_dict, expected",
     [
@@ -130,5 +150,15 @@ def test_dict_to_snake(test_dict, expected):
     @dict_to_snake
     def test_func():
         return test_dict
+
+    assert test_func() == expected
+
+
+def test_dict_to_snake_non_dict():
+    expected = 1
+
+    @dict_to_snake
+    def test_func():
+        return expected
 
     assert test_func() == expected

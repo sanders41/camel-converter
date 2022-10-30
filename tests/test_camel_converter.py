@@ -2,11 +2,11 @@ import pytest
 
 from camel_converter import (
     dict_to_camel,
+    dict_to_pascal,
     dict_to_snake,
-    dict_to_upper_camel,
     to_camel,
+    to_pascal,
     to_snake,
-    to_upper_camel,
 )
 
 
@@ -125,8 +125,8 @@ def test_dict_to_snake(test_dict, expected):
         ),
     ],
 )
-def test_dict_to_upper_camel(test_dict, expected):
-    assert dict_to_upper_camel(test_dict) == expected
+def test_dict_to_pascal(test_dict, expected):
+    assert dict_to_pascal(test_dict) == expected
 
 
 @pytest.mark.parametrize(
@@ -141,8 +141,8 @@ def test_to_camel(test_str, expected_str):
     "test_str, expected_str",
     [("this_is_a_test", "ThisIsATest"), ("this_is_a_12_test", "ThisIsA12Test")],
 )
-def test_to_upper_camel(test_str, expected_str):
-    assert to_upper_camel(test_str) == expected_str
+def test_to_pascal(test_str, expected_str):
+    assert to_pascal(test_str) == expected_str
 
 
 @pytest.mark.parametrize(

@@ -31,12 +31,12 @@ snake_case. The purpose of this pacakgae is to help convert between the two form
 
   This will convert `my_string` into `myString`
 
-- To convert from snake to upper camel case:
+- To convert from snake to pascal case:
 
   ```py
-  from camel_converter import to_upper_camel
+  from camel_converter import to_pascal
 
-  upper_camel = to_upper_camel("my_string")
+  pascal = to_pascal("my_string")
   ```
 
   This will convert `my_string` into `MyString`

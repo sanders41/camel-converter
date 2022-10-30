@@ -2,8 +2,99 @@ from __future__ import annotations
 
 import re
 from functools import lru_cache
+from typing import Any
 
 to_camel_pattern = re.compile(r"([a-zA-Z][^A-Z0-9]*|[0-9]+)")
+
+
+def dict_to_camel(data: dict[Any, Any]) -> dict[Any, Any]:
+    """Converts dictionary keys from snake case to camel case.
+
+    Only keys of type string are converted, any other type is left unchanged.
+
+    Args:
+        data: The dictionary to convert
+
+    Returns:
+        A dictionary with they keys of type string converted from snake case to camel case
+    """
+    converted: dict[Any, Any] = {}
+    for k, v in data.items():
+        if isinstance(k, str):
+            key = to_camel(k)
+        else:
+            key = k
+
+        if isinstance(v, dict):
+            converted[key] = dict_to_camel(v)
+        elif isinstance(v, list):
+            converted[key] = [dict_to_camel(x) if isinstance(x, dict) else x for x in v]
+        elif isinstance(v, tuple):
+            converted[key] = tuple(dict_to_camel(x) if isinstance(x, dict) else x for x in v)
+        else:
+            converted[key] = data[k]
+
+    return converted
+
+
+def dict_to_snake(data: dict[Any, Any]) -> dict[Any, Any]:
+    """Converts dictionary keys from camel case to snake case.
+
+    Only keys of type string are converted, any other type is left unchanged.
+
+    Args:
+        data: The dictionary to convert
+
+    Returns:
+        A dictionary with they keys of type string converted from camel case to snake case
+    """
+    converted: dict[Any, Any] = {}
+    for k, v in data.items():
+        if isinstance(k, str):
+            key = to_snake(k)
+        else:
+            key = k
+
+        if isinstance(v, dict):
+            converted[key] = dict_to_snake(v)
+        elif isinstance(v, list):
+            converted[key] = [dict_to_snake(x) if isinstance(x, dict) else x for x in v]
+        elif isinstance(v, tuple):
+            converted[key] = tuple(dict_to_snake(x) if isinstance(x, dict) else x for x in v)
+        else:
+            converted[key] = data[k]
+
+    return converted
+
+
+def dict_to_upper_camel(data: dict[Any, Any]) -> dict[Any, Any]:
+    """Converts dictionary keys from snake case to upper camel case.
+
+    Only keys of type string are converted, any other type is left unchanged.
+
+    Args:
+        data: The dictionary to convert
+
+    Returns:
+        A dictionary with they keys of type string converted from snake case to upper camel case
+    """
+    converted: dict[Any, Any] = {}
+    for k, v in data.items():
+        if isinstance(k, str):
+            key = to_upper_camel(k)
+        else:
+            key = k
+
+        if isinstance(v, dict):
+            converted[key] = dict_to_upper_camel(v)
+        elif isinstance(v, list):
+            converted[key] = [dict_to_upper_camel(x) if isinstance(x, dict) else x for x in v]
+        elif isinstance(v, tuple):
+            converted[key] = tuple(dict_to_upper_camel(x) if isinstance(x, dict) else x for x in v)
+        else:
+            converted[key] = data[k]
+
+    return converted
 
 
 @lru_cache(maxsize=256)

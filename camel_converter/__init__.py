@@ -38,7 +38,7 @@ def dict_to_camel(data: dict[Any, Any]) -> dict[Any, Any]:
 
 
 def dict_to_snake(data: dict[Any, Any]) -> dict[Any, Any]:
-    """Converts dictionary keys from camel case to snake case.
+    """Converts dictionary keys from camel case or pascal case to snake case.
 
     Only keys of type string are converted, any other type is left unchanged.
 
@@ -46,7 +46,8 @@ def dict_to_snake(data: dict[Any, Any]) -> dict[Any, Any]:
         data: The dictionary to convert
 
     Returns:
-        A dictionary with they keys of type string converted from camel case to snake case
+        A dictionary with they keys of type string converted from camel case or pascal case to
+        snake case
     """
     converted: dict[Any, Any] = {}
     for k, v in data.items():
@@ -67,8 +68,8 @@ def dict_to_snake(data: dict[Any, Any]) -> dict[Any, Any]:
     return converted
 
 
-def dict_to_upper_camel(data: dict[Any, Any]) -> dict[Any, Any]:
-    """Converts dictionary keys from snake case to upper camel case.
+def dict_to_pascal(data: dict[Any, Any]) -> dict[Any, Any]:
+    """Converts dictionary keys from snake case to pascal case.
 
     Only keys of type string are converted, any other type is left unchanged.
 
@@ -76,21 +77,21 @@ def dict_to_upper_camel(data: dict[Any, Any]) -> dict[Any, Any]:
         data: The dictionary to convert
 
     Returns:
-        A dictionary with they keys of type string converted from snake case to upper camel case
+        A dictionary with they keys of type string converted from snake case to pascal case
     """
     converted: dict[Any, Any] = {}
     for k, v in data.items():
         if isinstance(k, str):
-            key = to_upper_camel(k)
+            key = to_pascal(k)
         else:
             key = k
 
         if isinstance(v, dict):
-            converted[key] = dict_to_upper_camel(v)
+            converted[key] = dict_to_pascal(v)
         elif isinstance(v, list):
-            converted[key] = [dict_to_upper_camel(x) if isinstance(x, dict) else x for x in v]
+            converted[key] = [dict_to_pascal(x) if isinstance(x, dict) else x for x in v]
         elif isinstance(v, tuple):
-            converted[key] = tuple(dict_to_upper_camel(x) if isinstance(x, dict) else x for x in v)
+            converted[key] = tuple(dict_to_pascal(x) if isinstance(x, dict) else x for x in v)
         else:
             converted[key] = data[k]
 
@@ -114,10 +115,10 @@ def to_camel(snake_string: str) -> str:
 
 @lru_cache(maxsize=256)
 def to_snake(camel_string: str) -> str:
-    """Converts a camel case string to snake case.
+    """Converts a camel case or pascal case string to snake case.
 
     Args:
-        camel_string: String in camel case format. For example myVariable.
+        camel_string: String in camel case or pascal case format. For example myVariable.
 
     Returns:
         The string in snake case format. For example my_variable.
@@ -128,14 +129,14 @@ def to_snake(camel_string: str) -> str:
 
 
 @lru_cache(maxsize=256)
-def to_upper_camel(snake_string: str) -> str:
-    """Converts a snake case string to camel case.
+def to_pascal(snake_string: str) -> str:
+    """Converts a snake case string to pascal case.
 
     Args:
         snake_string: String in snake case format. For example my_variable.
 
     Returns:
-        The string in upper camel case format. For example MyVariable.
+        The string in pascal case format. For example MyVariable.
     """
     words = _split_snake(snake_string)
 

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "camel-converter"
-version = "2.0.0"
+version = "2.0.1"
 description = "Converts a string from snake case to camel case or camel case to snake case"
 authors = ["Paul Sanders <psanders1@gmail.com>"]
 license = "MIT"

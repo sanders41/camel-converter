@@ -98,7 +98,7 @@ def dict_to_pascal(data: dict[Any, Any]) -> dict[Any, Any]:
     return converted
 
 
-@lru_cache(maxsize=256)
+@lru_cache(maxsize=4098)
 def to_camel(snake_string: str) -> str:
     """Converts a snake case string to camel case.
 
@@ -113,7 +113,7 @@ def to_camel(snake_string: str) -> str:
     return words[0] + "".join(word.title() for word in words[1:])
 
 
-@lru_cache(maxsize=256)
+@lru_cache(maxsize=4098)
 def to_snake(camel_string: str) -> str:
     """Converts a camel case or pascal case string to snake case.
 
@@ -128,7 +128,7 @@ def to_snake(camel_string: str) -> str:
     return "_".join(word.lower() for word in words)
 
 
-@lru_cache(maxsize=256)
+@lru_cache(maxsize=4098)
 def to_pascal(snake_string: str) -> str:
     """Converts a snake case string to pascal case.
 

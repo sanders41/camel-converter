@@ -6,7 +6,7 @@
 [![PyPI version](https://badge.fury.io/py/camel-converter.svg)](https://badge.fury.io/py/camel-converter)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/camel-converter?color=5cc141)](https://github.com/sanders41/camel-converter)
 
-In JSON keys are frequently in camelCase format, while variable names in Python typically
+In JSON keys are frequently in camelCase format, while variable names in Python are typically
 snake_case. The purpose of this pacakgae is to help convert between the two formats.
 
 ## Usage

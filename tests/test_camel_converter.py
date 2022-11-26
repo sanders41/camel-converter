@@ -150,7 +150,7 @@ def test_to_pascal(test_str, expected_str):
     [
         ("thisIsATest", "this_is_a_test"),
         ("ThisIsATest", "this_is_a_test"),
-        ("aTestWith12Number", "a_test_with_12_number"),
+        ("aTestWith12Number", "a_test_with12_number"),
     ],
 )
 def test_to_snake(test_str, expected_str):

@@ -1,10 +1,7 @@
 from __future__ import annotations
 
-import re
 from functools import lru_cache
 from typing import Any
-
-to_camel_pattern = re.compile(r"([a-zA-Z][^A-Z0-9]*|[0-9]+)")
 
 
 def dict_to_camel(data: dict[Any, Any]) -> dict[Any, Any]:
@@ -123,9 +120,7 @@ def to_snake(camel_string: str) -> str:
     Returns:
         The string in snake case format. For example my_variable.
     """
-    words = to_camel_pattern.findall(camel_string)
-
-    return "_".join(word.lower() for word in words)
+    return "".join([f"_{c}" if c.isupper() else c for c in camel_string]).lstrip("_").lower()
 
 
 @lru_cache(maxsize=4096)

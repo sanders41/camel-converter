@@ -38,6 +38,7 @@ from camel_converter.decorators import dict_to_camel, dict_to_pascal, dict_to_sn
             {"test_convert": ({"change_me": 1, "unchanged": 2}, 1)},
             {"testConvert": ({"changeMe": 1, "unchanged": 2}, 1)},
         ),
+        ("non-dict", "non-dict"),
     ],
 )
 def test_dict_to_camel(test_dict, expected):
@@ -93,6 +94,7 @@ def test_dict_to_camel_non_dict():
             {"test_convert": ({"change_me": 1, "changed": 2}, 1)},
             {"TestConvert": ({"ChangeMe": 1, "Changed": 2}, 1)},
         ),
+        ("non-dict", "non-dict"),
     ],
 )
 def test_dict_to_pascal(test_dict, expected):
@@ -144,6 +146,7 @@ def test_dict_to_pascal_non_dict():
             {"testConvert": ({"changeMe": 1, "unchanged": 2}, 1)},
             {"test_convert": ({"change_me": 1, "unchanged": 2}, 1)},
         ),
+        ("non-dict", "non-dict"),
     ],
 )
 def test_dict_to_snake(test_dict, expected):

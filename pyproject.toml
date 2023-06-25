@@ -12,7 +12,6 @@ keywords = ["python", "pydantic"]
 classifiers=[
   "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Developers",
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
@@ -24,7 +23,7 @@ classifiers=[
 include = ["camel_converter/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 pydantic = {version = ">=1.8.2", optional = true}
 
 [tool.poetry.extras]
@@ -80,4 +79,4 @@ select=["E", "F", "T201", "T203", "I001", "UP"]
 ignore=["E501"]
 line-length = 100
 fix = true
-target-version = "py37"
+target-version = "py38"

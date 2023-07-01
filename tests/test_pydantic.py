@@ -13,7 +13,7 @@ def test_camel_config():
 
     got = Test(**{"testField": "test"})
 
-    assert got == {"test_field": "test"}
+    assert got.model_dump() == {"test_field": "test"}
 
 
 def test_camel_config_missing_import():

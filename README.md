@@ -149,4 +149,4 @@ With setting up your model in this way `myField` from the source, i.e. JSON data
 
 ## Contributing
 
-If you are interesting in contributing to this project please see our [contributing guide](CONTRIBUTING.md)
+If you are interested in contributing to this project please see our [contributing guide](CONTRIBUTING.md)

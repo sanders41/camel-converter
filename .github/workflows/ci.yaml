@@ -12,15 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - name: Install Poetry
+      run: |
+        pipx install poetry
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: "3.8"
         cache: "poetry"
-    - name: Install Poetry
-      run: |
-        pip install pipx
-        pipx install poetry
     - name: Configure poetry
       run: |
         poetry config virtualenvs.create true
@@ -41,14 +40,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
+    - name: Install Poetry
+      run: |
+        pipx install poetry
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
         cache: "poetry"
-    - name: Install Poetry
-      run: |
-        pip install pipx
-        pipx install poetry
     - name: Configure poetry
       run: |
         poetry config virtualenvs.create true

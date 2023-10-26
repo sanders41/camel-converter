@@ -111,7 +111,7 @@ def to_camel(snake_string: str) -> str:
 
 
 @lru_cache(maxsize=4096)
-def to_snake(camel_string: str, treat_digits_as_capitals: bool = False) -> str:
+def to_snake(camel_string: str, *, treat_digits_as_capitals: bool = False) -> str:
     """Converts a camel case or pascal case string to snake case.
 
     Args:

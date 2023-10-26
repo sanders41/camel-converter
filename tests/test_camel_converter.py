@@ -146,12 +146,14 @@ def test_to_pascal(test_str, expected_str):
 
 
 @pytest.mark.parametrize(
-    "test_str, expected_str",
+    "test_str, expected_str, treat_digits_as_capitals",
     [
-        ("thisIsATest", "this_is_a_test"),
-        ("ThisIsATest", "this_is_a_test"),
-        ("aTestWith12Number", "a_test_with12_number"),
+        ("thisIsATest", "this_is_a_test", False),
+        ("ThisIsATest", "this_is_a_test", False),
+        ("aTestWith12Number", "a_test_with12_number", False),
+        ("aTestWith12Number", "a_test_with_1_2_number", True),
+        ("ATestWith12Number", "a_test_with_1_2_number", True),
     ],
 )
-def test_to_snake(test_str, expected_str):
-    assert to_snake(test_str) == expected_str
+def test_to_snake(test_str, expected_str, treat_digits_as_capitals):
+    assert to_snake(test_str, treat_digits_as_capitals=treat_digits_as_capitals) == expected_str

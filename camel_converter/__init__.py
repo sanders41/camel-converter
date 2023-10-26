@@ -34,13 +34,19 @@ def dict_to_camel(data: dict[Any, Any]) -> dict[Any, Any]:
     return converted
 
 
-def dict_to_snake(data: dict[Any, Any]) -> dict[Any, Any]:
+def dict_to_snake(
+    data: dict[Any, Any], *, treat_digits_as_capitals: bool = False
+) -> dict[Any, Any]:
     """Converts dictionary keys from camel case or pascal case to snake case.
 
     Only keys of type string are converted, any other type is left unchanged.
 
     Args:
-        data: The dictionary to convert
+        data:
+            The dictionary to convert
+        treat_digits_as_capitals:
+            Whether to treat digits as capitals. For example myVariable2 would become my_variable_2
+            rather than my_variable2.
 
     Returns:
         A dictionary with they keys of type string converted from camel case or pascal case to
@@ -49,7 +55,7 @@ def dict_to_snake(data: dict[Any, Any]) -> dict[Any, Any]:
     converted: dict[Any, Any] = {}
     for k, v in data.items():
         if isinstance(k, str):
-            key = to_snake(k)
+            key = to_snake(k, treat_digits_as_capitals=treat_digits_as_capitals)
         else:
             key = k
 
@@ -118,7 +124,8 @@ def to_snake(camel_string: str, *, treat_digits_as_capitals: bool = False) -> st
         camel_string:
             String in camel case or pascal case format. For example myVariable.
         treat_digits_as_capitals:
-            Whether to treat digits as capitals. For example myVariable2 would become my_variable_2 rather than my_variable2.
+            Whether to treat digits as capitals. For example myVariable2 would become my_variable_2
+            rather than my_variable2.
 
     Returns:
         The string in snake case format. For example my_variable.

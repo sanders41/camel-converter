@@ -43,7 +43,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--cov=camel_converter --cov-report term-missing"
+addopts = "--cov=camel_converter --cov-report term-missing --no-cov-on-fail"
 
 [tool.mypy]
 check_untyped_defs = true

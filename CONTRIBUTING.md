@@ -151,12 +151,6 @@ The test suite can be run with
 poetry run pytest
 ```
 
-If you want to see which lines are missing code coverage run the tests with:
-
-```sh
-poetry run pytest --cov-report term-missing
-```
-
 In additon to mainting the coverage percentage please ensure that all
 tests are passing before submitting a pull request.
 

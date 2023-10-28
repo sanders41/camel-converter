@@ -85,7 +85,7 @@ You can run linting on your code at any time with:
 
 ```sh
 # Run ruff linter
-poetry run ruff camel_converter tests
+poetry run ruff check .
 
 # Run ruff format
 poetry run ruff format camel_converter tests

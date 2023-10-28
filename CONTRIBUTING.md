@@ -85,7 +85,7 @@ You can run linting on your code at any time with:
 
 ```sh
 # Run ruff linter
-poetry run ruff camel_converter tests
+poetry run ruff check .
 
 # Run ruff format
 poetry run ruff format camel_converter tests
@@ -151,12 +151,6 @@ The test suite can be run with
 poetry run pytest
 ```
 
-If you want to see which lines are missing code coverage run the tests with:
-
-```sh
-poetry run pytest --cov-report term-missing
-```
-
 In additon to mainting the coverage percentage please ensure that all
 tests are passing before submitting a pull request.
 
@@ -216,7 +210,7 @@ was based on by:
 ### Make the pull request
 
 If everything looks good, you are ready to make a pull request. This is how you let the maintainers
-of the camel-coverter project know you have code ready to be reviewed. To submit the pull request:
+of the camel-converter project know you have code ready to be reviewed. To submit the pull request:
 
 1. Navigate to your repository on GitHub
 2. Click on the Pull Request button for your feature branch

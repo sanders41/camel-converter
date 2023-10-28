@@ -216,7 +216,7 @@ was based on by:
 ### Make the pull request
 
 If everything looks good, you are ready to make a pull request. This is how you let the maintainers
-of the camel-coverter project know you have code ready to be reviewed. To submit the pull request:
+of the camel-converter project know you have code ready to be reviewed. To submit the pull request:
 
 1. Navigate to your repository on GitHub
 2. Click on the Pull Request button for your feature branch

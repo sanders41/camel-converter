@@ -59,7 +59,7 @@ fix = true
 target-version = "py38"
 
 [tool.ruff.lint]
-select=["E", "F", "T201", "T203", "I001", "UP"]
+select=["E", "B", "F", "T201", "T203", "I001", "UP"]
 ignore=[
   # Recommened ignores by ruff when using formatter
   "E501",

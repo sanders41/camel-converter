@@ -2,8 +2,10 @@ from warnings import warn
 
 try:
     import pydantic  # type: ignore
-except ImportError:
-    raise ImportError("camel-converter must be installed with the pydantic extra to use this class")
+except ImportError as e:
+    raise ImportError(
+        "camel-converter must be installed with the pydantic extra to use this class"
+    ) from e
 
 from camel_converter import to_camel
 
@@ -24,6 +26,7 @@ class CamelBase(pydantic.BaseModel):
             warn(
                 "The use of Pydantic less than version 2 is depreciated and will be removed in a future release",
                 DeprecationWarning,
+                stacklevel=2,
             )
 
             # Raise an AttributeError to match the AttributeError on __version__ because in either

@@ -3,6 +3,10 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Any
 
+from camel_converter._version import VERSION
+
+__version__ = VERSION
+
 
 def dict_to_camel(data: dict[Any, Any]) -> dict[Any, Any]:
     """Converts dictionary keys from snake case to camel case.

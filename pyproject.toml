@@ -9,7 +9,7 @@ description = "Converts a string from snake case to camel case or camel case to 
 authors = [ { name = "Paul Sanders", email = "paul@paulsanders.dev" } ]
 license = { file = "LICENSE" }
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 repository = "https://github.com/sanders41/camel-converter"
 homepage = "https://github.com/sanders41/camel-converter"
 documentation = "https://github.com/sanders41/camel-converter"
@@ -58,7 +58,7 @@ disallow_untyped_defs = false
 [tool.ruff]
 line-length = 100
 fix = true
-target-version = "py38"
+target-version = "py39"
 
 [tool.ruff.lint]
 select=["E", "B", "F", "T201", "T203", "I001", "UP"]

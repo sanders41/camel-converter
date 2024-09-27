@@ -34,7 +34,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "pydantic", marker = "extra == 'pydantic'", specifier = ">=1.8.2" }]
+requires-dist = [{ name = "pydantic", marker = "extra == 'pydantic'", specifier = ">=2.0.0" }]
 
 [package.metadata.requires-dev]
 dev = [

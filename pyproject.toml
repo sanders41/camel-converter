@@ -29,7 +29,7 @@ classifiers=[
 dependencies = []
 
 [project.optional-dependencies]
-pydantic = ["pydantic>=1.8.2"]
+pydantic = ["pydantic>=2.0.0"]
 
 [tool.uv]
 dev-dependencies = [

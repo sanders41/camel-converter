@@ -18,8 +18,8 @@
 @ruff-format:
   uv run ruff format camel_converter tests
 
-@test:
-  -uv run pytest -x
+@test *args="":
+  -uv run pytest {{args}}
 
 @install:
   uv sync --frozen --all-extras

@@ -36,7 +36,7 @@ dev-dependencies = [
   "mypy[faster-cache]==1.13.0",
   "pre-commit==4.0.1",
   "pytest==8.3.3",
-  "pytest-cov==5.0.0",
+  "pytest-cov==6.0.0",
   "ruff==0.7.1",
 ]
 

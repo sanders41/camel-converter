@@ -26,3 +26,6 @@
 
 @lock:
   uv lock
+
+@lock-upgrade:
+  uv lock --upgrade

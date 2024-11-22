@@ -37,7 +37,7 @@ dev-dependencies = [
   "pre-commit==4.0.1",
   "pytest==8.3.3",
   "pytest-cov==6.0.0",
-  "ruff==0.7.4",
+  "ruff==0.8.0",
 ]
 
 [tool.hatch.version]
@@ -61,7 +61,18 @@ fix = true
 target-version = "py39"
 
 [tool.ruff.lint]
-select=["E", "B", "F", "T201", "T203", "I001", "UP"]
+select=[
+  "E",  # pycodestyle
+  "B",  # flake8-bugbear
+  "W",  # Warning
+  "F",  # pyflakes
+  "UP",  # pyupgrade
+  "I001",  # unsorted-imports
+  "T201",  # Don't allow print
+  "T203",  # Don't allow pprint
+  "RUF022",  # Unsorted __all__
+  "RUF023",  # Unforted __slots__
+]
 ignore=[
   # Recommened ignores by ruff when using formatter
   "E501",

@@ -33,7 +33,7 @@ pydantic = ["pydantic>=2.0.0"]
 
 [tool.uv]
 dev-dependencies = [
-  "mypy[faster-cache]==1.14.0",
+  "mypy[faster-cache]==1.14.1",
   "pre-commit==4.0.1",
   "pytest==8.3.4",
   "pytest-cov==6.0.0",

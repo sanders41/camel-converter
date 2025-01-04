@@ -1,6 +1,6 @@
 # Camel Converter
 
-[![Test Status](https://github.com/sanders41/camel-converter/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/sanders41/camel-converter/actions?query=workflow%3CI+branch%3Amain+event%3Apush)
+[![Test Status](https://github.com/sanders41/camel-converter/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/sanders41/camel-converter/actions?query=workflow%3ACI+branch%3Amain+event%3Apush)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/sanders41/camel-converter/main.svg)](https://results.pre-commit.ci/latest/github/sanders41/camel-converter/main)
 [![Coverage](https://codecov.io/github/sanders41/camel-converter/coverage.svg?branch=main)](https://codecov.io/gh/sanders41/camel-converter)
 [![PyPI version](https://badge.fury.io/py/camel-converter.svg)](https://badge.fury.io/py/camel-converter)

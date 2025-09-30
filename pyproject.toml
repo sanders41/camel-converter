@@ -31,8 +31,8 @@ dependencies = []
 [project.optional-dependencies]
 pydantic = ["pydantic>=2.0.0"]
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
   "mypy[faster-cache]==1.18.2",
   "pre-commit==4.3.0",
   "pytest==8.4.2",

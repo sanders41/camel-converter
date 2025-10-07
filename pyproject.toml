@@ -9,7 +9,7 @@ description = "Converts a string from snake case to camel case or camel case to 
 authors = [ { name = "Paul Sanders", email = "paul@paulsanders.dev" } ]
 license = { file = "LICENSE" }
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 repository = "https://github.com/sanders41/camel-converter"
 homepage = "https://github.com/sanders41/camel-converter"
 documentation = "https://github.com/sanders41/camel-converter"
@@ -17,7 +17,6 @@ keywords = ["python", "pydantic", "snake-case", "camel-case", "converter"]
 classifiers=[
   "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Developers",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -59,7 +58,7 @@ disallow_untyped_defs = false
 [tool.ruff]
 line-length = 100
 fix = true
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 select=[

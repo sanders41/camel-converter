@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import wraps
-from typing import Any, Callable
+from typing import Any
 
 from camel_converter import dict_to_camel as dict_to_camel_func
 from camel_converter import dict_to_pascal as dict_to_pascal_func

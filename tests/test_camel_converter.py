@@ -1,3 +1,6 @@
+import sys
+from concurrent.futures import ThreadPoolExecutor
+
 import pytest
 
 from camel_converter import (
@@ -184,3 +187,42 @@ def test_to_pascal(test_str, expected_str):
 )
 def test_to_snake(test_str, expected_str, treat_digits_as_capitals):
     assert to_snake(test_str, treat_digits_as_capitals=treat_digits_as_capitals) == expected_str
+
+
+def test_to_snake_threaded():
+    if not hasattr(sys, "_is_gil_enabled") or sys._is_gil_enabled():
+        pytest.skip("Free-threading is not enabled")
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        future1 = executor.submit(to_snake, "thisIsATest")
+        future2 = executor.submit(to_snake, "thisIsAnotherTest")
+
+        result1 = future1.result()
+        result2 = future2.result()
+
+    assert result1 == "this_is_a_test"
+    assert result2 == "this_is_another_test"
+
+
+def test_dict_to_snake_threaded():
+    if not hasattr(sys, "_is_gil_enabled") or sys._is_gil_enabled():
+        pytest.skip("Free-threading is not enabled")
+
+    dict1 = {
+        "convertMe": "val 1",
+        "meAlso": "val 2",
+        "unchanged": "val 3",
+        1: "val 4",
+    }
+    dict2 = {
+        "testVal": "val 1",
+    }
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        future1 = executor.submit(dict_to_snake, dict1)
+        future2 = executor.submit(dict_to_snake, dict2)
+
+        result1 = future1.result()
+        result2 = future2.result()
+
+    assert result1 == {"convert_me": "val 1", "me_also": "val 2", "unchanged": "val 3", 1: "val 4"}
+    assert result2 == {"test_val": "val 1"}

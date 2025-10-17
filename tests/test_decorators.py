@@ -1,3 +1,6 @@
+import sys
+from concurrent.futures import ThreadPoolExecutor
+
 import pytest
 
 from camel_converter.decorators import dict_to_camel, dict_to_pascal, dict_to_snake
@@ -165,3 +168,22 @@ def test_dict_to_snake_non_dict():
         return expected
 
     assert test_func() == expected
+
+
+def test_dict_to_snake_threaded():
+    if not hasattr(sys, "_is_gil_enabled") or sys._is_gil_enabled():
+        pytest.skip("Free-threading is not enabled")
+
+    @dict_to_snake
+    def test_func(data):
+        return data
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        future1 = executor.submit(test_func, {"testField": "value 1"})
+        future2 = executor.submit(test_func, {"testAnotherField": "value 2"})
+
+        result1 = future1.result()
+        result2 = future2.result()
+
+    assert result1 == {"test_field": "value 1"}
+    assert result2 == {"test_another_field": "value 2"}

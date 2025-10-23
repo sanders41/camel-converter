@@ -7,7 +7,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/camel-converter?color=5cc141)](https://github.com/sanders41/camel-converter)
 
 In JSON keys are frequently in camelCase format, while variable names in Python are typically
-snake_case. The purpose of this pacakgae is to help convert between the two formats.
+snake_case. The purpose of this package is to help convert between the two formats.
 
 ## Usage
 
@@ -21,7 +21,7 @@ snake_case. The purpose of this pacakgae is to help convert between the two form
 
   This will convert `myString` into `my_string`
 
-- To convert a dictonary's keys from camel case to snake case:
+- To convert a dictionary's keys from camel case to snake case:
 
   ```py
   from camel_converter import dict_to_snake

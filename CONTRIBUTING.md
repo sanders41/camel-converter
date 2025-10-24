@@ -12,18 +12,18 @@ for something that interests you.
 
 Please include:
 
-1.  A short, self-contained Python snippet reproducing the problem. You can format the code by using
+1. A short, self-contained Python snippet reproducing the problem. You can format the code by using
     [GitHub markdown](https://docs.github.com/en/free-pro-team@latest/github/writing-on-github). For
     example:
 
-        ```py
-        from camel_converter import to_camel
+    ```py
+    from camel_converter import to_camel
 
-        camel = to_camel("test_string")
-        ...
-        ```
+    camel = to_camel("test_string")
+    ...
+    ```
 
-2.  Explain what is currently happening and what you expect instead.
+2. Explain what is currently happening and what you expect instead.
 
 ## Working on the code
 
@@ -46,7 +46,7 @@ repository.
 ### Working with the code
 
 Note: This project uses uv to manage dependencies. If you do not already have uv installed you will
-need to install it with the instructions [here](https://docs.astral.sh/uv/getting-started/installation/)
+need to install it with the instructions [on the uv website](https://docs.astral.sh/uv/getting-started/installation/)
 
 First the requirements need to be installed.
 
@@ -150,7 +150,7 @@ The test suite can be run with
 uv run pytest
 ```
 
-In additon to mainting the coverage percentage please ensure that all
+In addition to mainting the coverage percentage please ensure that all
 tests are passing before submitting a pull request.
 
 ## Committing your code
@@ -243,7 +243,7 @@ git fetch upstream
 git rebase upstream/main
 ```
 
-There may be some merge conficts that need to be resolved. After the feature branch has been update
+There may be some merge conflicts that need to be resolved. After the feature branch has been update
 locally, you can now update your pull request by pushing to the branch on GitHub:
 
 ```sh

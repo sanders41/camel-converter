@@ -33,7 +33,7 @@ def dict_to_camel(data: dict[Any, Any]) -> dict[Any, Any]:
         elif isinstance(v, tuple):
             converted[key] = tuple(dict_to_camel(x) if isinstance(x, dict) else x for x in v)
         else:
-            converted[key] = data[k]
+            converted[key] = v
 
     return converted
 
@@ -64,13 +64,23 @@ def dict_to_snake(
             key = k
 
         if isinstance(v, dict):
-            converted[key] = dict_to_snake(v)
+            converted[key] = dict_to_snake(v, treat_digits_as_capitals=treat_digits_as_capitals)
         elif isinstance(v, list):
-            converted[key] = [dict_to_snake(x) if isinstance(x, dict) else x for x in v]
+            converted[key] = [
+                dict_to_snake(x, treat_digits_as_capitals=treat_digits_as_capitals)
+                if isinstance(x, dict)
+                else x
+                for x in v
+            ]
         elif isinstance(v, tuple):
-            converted[key] = tuple(dict_to_snake(x) if isinstance(x, dict) else x for x in v)
+            converted[key] = tuple(
+                dict_to_snake(x, treat_digits_as_capitals=treat_digits_as_capitals)
+                if isinstance(x, dict)
+                else x
+                for x in v
+            )
         else:
-            converted[key] = data[k]
+            converted[key] = v
 
     return converted
 
@@ -100,7 +110,7 @@ def dict_to_pascal(data: dict[Any, Any]) -> dict[Any, Any]:
         elif isinstance(v, tuple):
             converted[key] = tuple(dict_to_pascal(x) if isinstance(x, dict) else x for x in v)
         else:
-            converted[key] = data[k]
+            converted[key] = v
 
     return converted
 
@@ -141,7 +151,7 @@ def to_snake(camel_string: str, *, treat_digits_as_capitals: bool = False) -> st
         else:
             return c
 
-    return "".join([check_character(c) for c in camel_string]).lstrip("_").lower()
+    return "".join(check_character(c) for c in camel_string).lstrip("_").lower()
 
 
 @lru_cache(maxsize=4096)

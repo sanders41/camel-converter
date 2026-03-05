@@ -1,11 +1,74 @@
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from camel_converter._version import VERSION
 
 __version__ = VERSION
+
+if TYPE_CHECKING:
+    import sys
+
+    if sys.version_info >= (3, 11):
+        from typing import Self
+    else:
+        from typing_extensions import Self
+
+
+class Converter:
+    """Inheriting this class adds methods to convert class and instance variables."""
+
+    def to_camel(self) -> dict[str, Any]:
+        """Converts to the class and instance variables into a camel case dict.
+
+        Returns:
+            A dictionary with they class and instance variable namess converted from snake case to
+            camel case.
+
+        Examples
+            >>> from camel_converrter import Converter
+            >>> class SomeClass(Converter):
+            >>>     some_value = "some value"
+            >>>
+            >>>     def __init__(self) -> None:
+            >>>         self.another_value = "another value"
+            >>>
+            >>> example = SomeClass()
+            >>> print(example)
+
+            This will print `{"someValue": "some value", "anotherValue": "another value"}`
+        """
+        class_vars = {
+            key: value
+            for key, value in self.__class__.__dict__.items()
+            if not key.startswith("_") and not callable(value)
+        }
+
+        return dict_to_camel({**class_vars, **self.__dict__})
+
+    @classmethod
+    def from_camel(cls, data: dict[str, Any]) -> Self:
+        """Initialize a class with a dictionary of camel case variables.
+
+        Args:
+            data: The dictionary to convert
+
+        Returns:
+            An instance of the class
+
+        Examples
+            >>> from camel_converrter import Converter
+            >>> class SomeClass(Converter):
+            >>>     def __init__(self, some_value: str) -> None:
+            >>>         self.some_value = "some value"
+            >>>
+            >>> example = SomeClass.from_camel({"someValue": "some value"})
+            >>> print(example.some_value)
+
+            This will print `some value`
+        """
+        return cls(**dict_to_snake(data))
 
 
 def dict_to_camel(data: dict[Any, Any]) -> dict[Any, Any]:

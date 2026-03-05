@@ -1,6 +1,9 @@
+from dataclasses import dataclass
+
 import pytest
 
 from camel_converter import (
+    Converter,
     dict_to_camel,
     dict_to_pascal,
     dict_to_snake,
@@ -184,3 +187,39 @@ def test_to_pascal(test_str, expected_str):
 )
 def test_to_snake(test_str, expected_str, treat_digits_as_capitals):
     assert to_snake(test_str, treat_digits_as_capitals=treat_digits_as_capitals) == expected_str
+
+
+def test_class_to_camel():
+    class SomeClass(Converter):
+        some_value = "some value"
+
+        def __init__(self) -> None:
+            self.another_value = "another value"
+
+    tester = SomeClass()
+
+    assert tester.to_camel() == {"someValue": "some value", "anotherValue": "another value"}
+
+
+def test_data_class_to_camel():
+    @dataclass
+    class SomeClass(Converter):
+        some_value = "some value"
+
+        def __init__(self) -> None:
+            self.another_value = "another value"
+
+    tester = SomeClass()
+
+    assert tester.to_camel() == {"someValue": "some value", "anotherValue": "another value"}
+
+
+def test_class_from_snake():
+    class SomeClass(Converter):
+        def __init__(self, some_value: str) -> None:
+            self.some_value = some_value
+
+    data = {"someValue": "some_value"}
+    tester = SomeClass.from_camel(data)
+
+    assert tester.some_value == data["someValue"]

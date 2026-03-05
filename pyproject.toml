@@ -38,6 +38,7 @@ dev = [
   "pytest==9.0.2",
   "pytest-cov==7.0.0",
   "ruff==0.15.4",
+  "typing-extensions>=4.15.0; python_version < '3.11'",
 ]
 
 [tool.hatch.version]
@@ -46,6 +47,9 @@ path = "camel_converter/_version.py"
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "--cov=camel_converter --cov-report term-missing --no-cov-on-fail"
+
+[tool.coverage.report]
+exclude_lines = ["if __name__ == .__main__.:", "if TYPE_CHECKING:", "pragma: no cover"]
 
 [tool.mypy]
 check_untyped_defs = true

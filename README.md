@@ -119,6 +119,38 @@ snake_case. The purpose of this package is to help convert between the two forma
   `my_func` will return `{"MyString": "val 1"}`. Non-string keys will be
   left unchanged.
 
+- Class base model to add methods
+
+Inheriting the `Converter` adds `to_camel` and `from_camel` methods to your class
+
+```py
+from camel_converrter import Converter
+
+class SomeClass(Converter):
+    some_value = "some value"
+
+    def __init__(self) -> None:
+        self.another_value = "another value"
+
+example = SomeClass()
+print(example)
+```
+
+This will print `{"someValue": "some value", "anotherValue": "another value"}`
+
+```py
+from camel_converrter import Converter
+
+class SomeClass(Converter):
+    def __init__(self, some_value: str) -> None:
+        self.some_value = "some value"
+
+example = SomeClass.from_camel({"someValue": "some value"})
+print(example.some_value)
+```
+
+This will print `some value`
+
 ### Optional Extras
 
 An optional extra is provided for [Pydantic](https://pydantic-docs.helpmanual.io/) that provides a

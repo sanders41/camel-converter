@@ -14,13 +14,15 @@ version-resolver:
   default: patch
 categories:
   - title: "⚠ Breaking changes"
-    label: "breaking-change"
+    labels:
+      - "breaking-change"
   - title: "Features"
     labels:
       - "feature"
       - "enhancement"
   - title: "Bug Fixes"
-    labels: "bug-fix"
+    labels:
+      - "bug-fix"
 change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
 template: |
   ## Changes

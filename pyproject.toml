@@ -37,7 +37,7 @@ dev = [
   "pre-commit==4.6.0",
   "pytest==9.0.3",
   "pytest-cov==7.1.0",
-  "ruff==0.15.12",
+  "ruff==0.15.13",
   "typing-extensions>=4.15.0; python_version < '3.11'",
 ]
 

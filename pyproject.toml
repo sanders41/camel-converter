@@ -35,7 +35,7 @@ pydantic = ["pydantic>=2.0.0"]
 dev = [
   "mypy[faster-cache]==2.1.0",
   "pre-commit==4.6.0",
-  "pytest==9.0.3",
+  "pytest==9.1.0",
   "pytest-cov==7.1.0",
   "ruff==0.15.17",
   "typing-extensions>=4.15.0; python_version < '3.11'",

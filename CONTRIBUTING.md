@@ -13,8 +13,8 @@ for something that interests you.
 Please include:
 
 1. A short, self-contained Python snippet reproducing the problem. You can format the code by using
-    [GitHub markdown](https://docs.github.com/en/free-pro-team@latest/github/writing-on-github). For
-    example:
+   [GitHub markdown](https://docs.github.com/en/free-pro-team@latest/github/writing-on-github). For
+   example:
 
     ```py
     from camel_converter import to_camel
@@ -75,10 +75,10 @@ git checkout main
 git pull upstream main --ff-only
 ```
 
-### Code Standards and tests (ruff, mypy, pytest, and pre-commit)
+### Code Standards and tests (ruff, pyrefly, pytest, and pre-commit)
 
 camel-converter uses [ruff](https://github.com/charliermarsh/ruff) and
-[mypy](https://mypy.readthedocs.io/en/stable/) to ensure consistent code formatting.
+[pyrefly](https://pyrefly.org/) to ensure consistent code formatting.
 
 You can run linting on your code at any time with:
 
@@ -89,8 +89,8 @@ uv run ruff check .
 # Run ruff format
 uv run ruff format camel_converter tests
 
-# Run mypy
-uv run mypy camel_converter
+# Run pyrefly
+uv run pyrefly check
 ```
 
 It is also suggested that you setup [pre-commit](https://pre-commit.com/) in order to run linting

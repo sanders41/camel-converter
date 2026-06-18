@@ -25,8 +25,8 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Install Dependencies
         run: uv sync --frozen --all-extras
-      - name: mypy check
-        run: uv run mypy camel_converter tests
+      - name: pyrefly check
+        run: uv run pyrefly check
   testing:
     strategy:
       fail-fast: false

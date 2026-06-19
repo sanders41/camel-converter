@@ -60,7 +60,6 @@ check-unannotated-defs = false
 [tool.ruff]
 line-length = 100
 fix = true
-target-version = "py310"
 
 [tool.ruff.lint]
 select=[

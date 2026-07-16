@@ -92,3 +92,6 @@ ignore=[
   "ISC001",
   "ISC002",
 ]
+
+[tool.uv]
+exclude-newer = "3 days"

@@ -27,6 +27,13 @@ jobs:
         run: uv sync --frozen --all-extras
       - name: pyrefly check
         run: uv run pyrefly check
+  prek:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: j178/prek-action@v2
+        env:
+          SKIP: pyrefly-check
   testing:
     strategy:
       fail-fast: false

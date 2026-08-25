@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from functools import lru_cache
+from collections.abc import Callable
+from functools import lru_cache, partial
 from typing import TYPE_CHECKING, Any
 
 from camel_converter._version import VERSION
-
-__version__ = VERSION
 
 if TYPE_CHECKING:
     import sys
@@ -14,6 +13,8 @@ if TYPE_CHECKING:
         from typing import Self
     else:
         from typing_extensions import Self
+
+__version__ = VERSION
 
 
 class Converter:
@@ -81,24 +82,11 @@ def dict_to_camel(data: dict[Any, Any]) -> dict[Any, Any]:
 
     Returns:
         A dictionary with they keys of type string converted from snake case to camel case
+
+    Raises:
+        TypeError: If data is not a dict
     """
-    converted: dict[Any, Any] = {}
-    for k, v in data.items():
-        if isinstance(k, str):
-            key = to_camel(k)
-        else:
-            key = k
-
-        if isinstance(v, dict):
-            converted[key] = dict_to_camel(v)
-        elif isinstance(v, list):
-            converted[key] = [dict_to_camel(x) if isinstance(x, dict) else x for x in v]
-        elif isinstance(v, tuple):
-            converted[key] = tuple(dict_to_camel(x) if isinstance(x, dict) else x for x in v)
-        else:
-            converted[key] = v
-
-    return converted
+    return _convert_dict(data, to_camel)
 
 
 def dict_to_snake(
@@ -118,34 +106,11 @@ def dict_to_snake(
     Returns:
         A dictionary with they keys of type string converted from camel case or pascal case to
         snake case
+
+    Raises:
+        TypeError: If data is not a dict
     """
-    converted: dict[Any, Any] = {}
-    for k, v in data.items():
-        if isinstance(k, str):
-            key = to_snake(k, treat_digits_as_capitals=treat_digits_as_capitals)
-        else:
-            key = k
-
-        if isinstance(v, dict):
-            converted[key] = dict_to_snake(v, treat_digits_as_capitals=treat_digits_as_capitals)
-        elif isinstance(v, list):
-            converted[key] = [
-                dict_to_snake(x, treat_digits_as_capitals=treat_digits_as_capitals)
-                if isinstance(x, dict)
-                else x
-                for x in v
-            ]
-        elif isinstance(v, tuple):
-            converted[key] = tuple(
-                dict_to_snake(x, treat_digits_as_capitals=treat_digits_as_capitals)
-                if isinstance(x, dict)
-                else x
-                for x in v
-            )
-        else:
-            converted[key] = v
-
-    return converted
+    return _convert_dict(data, partial(to_snake, treat_digits_as_capitals=treat_digits_as_capitals))
 
 
 def dict_to_pascal(data: dict[Any, Any]) -> dict[Any, Any]:
@@ -158,24 +123,11 @@ def dict_to_pascal(data: dict[Any, Any]) -> dict[Any, Any]:
 
     Returns:
         A dictionary with they keys of type string converted from snake case to pascal case
+
+    Raises:
+        TypeError: If data is not a dict
     """
-    converted: dict[Any, Any] = {}
-    for k, v in data.items():
-        if isinstance(k, str):
-            key = to_pascal(k)
-        else:
-            key = k
-
-        if isinstance(v, dict):
-            converted[key] = dict_to_pascal(v)
-        elif isinstance(v, list):
-            converted[key] = [dict_to_pascal(x) if isinstance(x, dict) else x for x in v]
-        elif isinstance(v, tuple):
-            converted[key] = tuple(dict_to_pascal(x) if isinstance(x, dict) else x for x in v)
-        else:
-            converted[key] = v
-
-    return converted
+    return _convert_dict(data, to_pascal)
 
 
 @lru_cache(maxsize=4096)
@@ -234,3 +186,26 @@ def to_pascal(snake_string: str) -> str:
 
 def _split_snake(snake_string: str) -> list[str]:
     return snake_string.split("_")
+
+
+def _convert_dict(data: dict[Any, Any], convert_key: Callable[[str], str]) -> dict[Any, Any]:
+    if not isinstance(data, dict):
+        raise TypeError(f"Expected a dict, got {type(data).__name__}")
+
+    return _convert_value(data, convert_key)
+
+
+def _convert_value(value: Any, convert_key: Callable[[str], str]) -> Any:
+    if isinstance(value, dict):
+        return {
+            (convert_key(k) if isinstance(k, str) else k): _convert_value(v, convert_key)
+            for k, v in value.items()
+        }
+
+    if isinstance(value, list):
+        return [_convert_value(v, convert_key) for v in value]
+
+    if isinstance(value, tuple):
+        return tuple([_convert_value(v, convert_key) for v in value])
+
+    return value

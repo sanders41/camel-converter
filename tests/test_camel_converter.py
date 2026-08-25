@@ -53,6 +53,26 @@ from camel_converter import (
             {"test_convert": ({"change_me": 1, "unchanged": 2}, 1)},
             {"testConvert": ({"changeMe": 1, "unchanged": 2}, 1)},
         ),
+        (
+            {"test_convert": [[{"change_me": 1, "unchanged": 2}, 1]]},
+            {"testConvert": [[{"changeMe": 1, "unchanged": 2}, 1]]},
+        ),
+        (
+            {"test_convert": [({"change_me": 1}, 1)]},
+            {"testConvert": [({"changeMe": 1}, 1)]},
+        ),
+        (
+            {"test_convert": ([{"change_me": 1}], 1)},
+            {"testConvert": ([{"changeMe": 1}], 1)},
+        ),
+        (
+            {"test_convert": [[[{"change_me": 1}]]]},
+            {"testConvert": [[[{"changeMe": 1}]]]},
+        ),
+        (
+            {"test_convert": [1, "two", None, {"change_me": 3}]},
+            {"testConvert": [1, "two", None, {"changeMe": 3}]},
+        ),
     ],
 )
 def test_dict_to_camel(test_dict, expected):
@@ -93,6 +113,26 @@ def test_dict_to_camel(test_dict, expected):
         (
             {"test_convert": ({"change_me": 1, "changed": 2}, 1)},
             {"TestConvert": ({"ChangeMe": 1, "Changed": 2}, 1)},
+        ),
+        (
+            {"test_convert": [[{"change_me": 1, "changed": 2}, 1]]},
+            {"TestConvert": [[{"ChangeMe": 1, "Changed": 2}, 1]]},
+        ),
+        (
+            {"test_convert": [({"change_me": 1}, 1)]},
+            {"TestConvert": [({"ChangeMe": 1}, 1)]},
+        ),
+        (
+            {"test_convert": ([{"change_me": 1}], 1)},
+            {"TestConvert": ([{"ChangeMe": 1}], 1)},
+        ),
+        (
+            {"test_convert": [[[{"change_me": 1}]]]},
+            {"TestConvert": [[[{"ChangeMe": 1}]]]},
+        ),
+        (
+            {"test_convert": [1, "two", None, {"change_me": 3}]},
+            {"TestConvert": [1, "two", None, {"ChangeMe": 3}]},
         ),
     ],
 )
@@ -145,6 +185,36 @@ def test_dict_to_pascal(test_dict, expected):
             False,
         ),
         (
+            {"testConvert": [[{"changeMe": 1, "unchanged": 2}, 1]]},
+            {"test_convert": [[{"change_me": 1, "unchanged": 2}, 1]]},
+            False,
+        ),
+        (
+            {"testConvert": [({"changeMe": 1},)]},
+            {"test_convert": [({"change_me": 1},)]},
+            False,
+        ),
+        (
+            {"testConvert": ([{"changeMe": 1}], 1)},
+            {"test_convert": ([{"change_me": 1}], 1)},
+            False,
+        ),
+        (
+            {"testConvert": [[[{"changeMe": 1}]]]},
+            {"test_convert": [[[{"change_me": 1}]]]},
+            False,
+        ),
+        (
+            {"testConvert": [1, "two", None, {"changeMe": 3}]},
+            {"test_convert": [1, "two", None, {"change_me": 3}]},
+            False,
+        ),
+        (
+            {"testConvert": [[{"changeMe12": 1}]]},
+            {"test_convert": [[{"change_me_1_2": 1}]]},
+            True,
+        ),
+        (
             {"aTestWith12Number": 1, "AnotherTestWith12Number": 2, "endNumber1": 3},
             {
                 "a_test_with_1_2_number": 1,
@@ -157,6 +227,13 @@ def test_dict_to_pascal(test_dict, expected):
 )
 def test_dict_to_snake(test_dict, expected, treat_digits_as_capitals):
     assert dict_to_snake(test_dict, treat_digits_as_capitals=treat_digits_as_capitals) == expected
+
+
+@pytest.mark.parametrize("converter", [dict_to_camel, dict_to_pascal, dict_to_snake])
+@pytest.mark.parametrize("test_data", ["some_string", ["some_key"], ("some_key",), 1, None])
+def test_dict_converters_non_dict_raises(converter, test_data):
+    with pytest.raises(TypeError, match="Expected a dict"):
+        converter(test_data)
 
 
 @pytest.mark.parametrize(

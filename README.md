@@ -36,9 +36,11 @@ snake_case. The purpose of this package is to help convert between the two forma
   ```py
   from camel_converter.decorators import dict_to_snake
 
+
   @dict_to_snake
   def my_func() -> dict[str, str]:
       return {"myString": "val 1"}
+
 
   snake = my_func()
   ```
@@ -72,9 +74,11 @@ snake_case. The purpose of this package is to help convert between the two forma
   ```py
   from camel_converter.decorators import dict_to_camel
 
+
   @dict_to_camel
   def my_func() -> dict[str, str]:
       return {"my_string": "val 1"}
+
 
   camel = my_func()
   ```
@@ -108,9 +112,11 @@ snake_case. The purpose of this package is to help convert between the two forma
   ```py
   from camel_converter.decorators import dict_to_pascal
 
+
   @dict_to_pascal
   def my_func() -> dict[str, str]:
       return {"my_string": "val 1"}
+
 
   pascal = my_func()
   ```
@@ -125,11 +131,13 @@ Inheriting the `Converter` adds `to_camel` and `from_camel` methods to your clas
 ```py
 from camel_converrter import Converter
 
+
 class SomeClass(Converter):
     some_value = "some value"
 
     def __init__(self) -> None:
         self.another_value = "another value"
+
 
 example = SomeClass()
 print(example)
@@ -140,9 +148,11 @@ This will print `{"someValue": "some value", "anotherValue": "another value"}`
 ```py
 from camel_converrter import Converter
 
+
 class SomeClass(Converter):
     def __init__(self, some_value: str) -> None:
         self.some_value = "some value"
+
 
 example = SomeClass.from_camel({"someValue": "some value"})
 print(example.some_value)

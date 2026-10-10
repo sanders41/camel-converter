@@ -2,17 +2,9 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from functools import lru_cache, partial
-from typing import TYPE_CHECKING, Any
+from typing import Any, Self
 
 from camel_converter._version import VERSION
-
-if TYPE_CHECKING:
-    import sys
-
-    if sys.version_info >= (3, 11):
-        from typing import Self
-    else:
-        from typing_extensions import Self
 
 __version__ = VERSION
 

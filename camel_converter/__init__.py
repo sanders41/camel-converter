@@ -8,6 +8,8 @@ from camel_converter._version import VERSION
 
 __version__ = VERSION
 
+_CONTAINERS = (dict, list, tuple)
+
 
 class Converter:
     """Inheriting this class adds methods to convert class and instance variables."""
@@ -105,7 +107,10 @@ def dict_to_snake(
     Raises:
         TypeError: If data is not a dict
     """
-    return _convert_dict(data, partial(to_snake, treat_digits_as_capitals=treat_digits_as_capitals))
+    convert_key = (
+        partial(to_snake, treat_digits_as_capitals=True) if treat_digits_as_capitals else to_snake
+    )
+    return _convert_dict(data, convert_key)
 
 
 def dict_to_pascal(data: dict[Any, Any]) -> dict[Any, Any]:
@@ -196,14 +201,15 @@ def _convert_dict(data: dict[Any, Any], convert_key: Callable[[str], str]) -> di
 def _convert_value(value: Any, convert_key: Callable[[str], str]) -> Any:
     if isinstance(value, dict):
         return {
-            (convert_key(k) if isinstance(k, str) else k): _convert_value(v, convert_key)
+            (convert_key(k) if isinstance(k, str) else k): (
+                _convert_value(v, convert_key) if isinstance(v, _CONTAINERS) else v
+            )
             for k, v in value.items()
         }
 
     if isinstance(value, list):
-        return [_convert_value(v, convert_key) for v in value]
+        return [_convert_value(v, convert_key) if isinstance(v, _CONTAINERS) else v for v in value]
 
-    if isinstance(value, tuple):
-        return tuple([_convert_value(v, convert_key) for v in value])
-
-    return value
+    return tuple(
+        [_convert_value(v, convert_key) if isinstance(v, _CONTAINERS) else v for v in value]
+    )

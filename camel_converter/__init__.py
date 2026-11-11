@@ -20,7 +20,7 @@ class Converter:
             camel case.
 
         Examples
-            >>> from camel_converrter import Converter
+            >>> from camel_converter import Converter
             >>> class SomeClass(Converter):
             >>>     some_value = "some value"
             >>>
@@ -28,7 +28,7 @@ class Converter:
             >>>         self.another_value = "another value"
             >>>
             >>> example = SomeClass()
-            >>> print(example)
+            >>> print(example.to_camel())
 
             This will print `{"someValue": "some value", "anotherValue": "another value"}`
         """
@@ -54,10 +54,10 @@ class Converter:
             An instance of the class
 
         Examples
-            >>> from camel_converrter import Converter
+            >>> from camel_converter import Converter
             >>> class SomeClass(Converter):
             >>>     def __init__(self, some_value: str) -> None:
-            >>>         self.some_value = "some value"
+            >>>         self.some_value = some_value
             >>>
             >>> example = SomeClass.from_camel({"someValue": "some value"})
             >>> print(example.some_value)

@@ -73,6 +73,10 @@ from camel_converter import (
             {"test_convert": [1, "two", None, {"change_me": 3}]},
             {"testConvert": [1, "two", None, {"changeMe": 3}]},
         ),
+        (
+            {"_id": 1, "user_id": 2},
+            {"_id": 1, "userId": 2},
+        ),
     ],
 )
 def test_dict_to_camel(test_dict, expected):
@@ -238,7 +242,13 @@ def test_dict_converters_non_dict_raises(converter, test_data):
 
 @pytest.mark.parametrize(
     "test_str, expected_str",
-    [("this_is_a_test", "thisIsATest"), ("this_is_a_12_test", "thisIsA12Test")],
+    [
+        ("this_is_a_test", "thisIsATest"),
+        ("this_is_a_12_test", "thisIsA12Test"),
+        ("_id", "_id"),
+        ("class_", "class_"),
+        ("__private_value", "__privateValue"),
+    ],
 )
 def test_to_camel(test_str, expected_str):
     assert to_camel(test_str) == expected_str
@@ -246,7 +256,12 @@ def test_to_camel(test_str, expected_str):
 
 @pytest.mark.parametrize(
     "test_str, expected_str",
-    [("this_is_a_test", "ThisIsATest"), ("this_is_a_12_test", "ThisIsA12Test")],
+    [
+        ("this_is_a_test", "ThisIsATest"),
+        ("this_is_a_12_test", "ThisIsA12Test"),
+        ("_id", "_Id"),
+        ("class_", "Class_"),
+    ],
 )
 def test_to_pascal(test_str, expected_str):
     assert to_pascal(test_str) == expected_str
@@ -260,6 +275,8 @@ def test_to_pascal(test_str, expected_str):
         ("aTestWith12Number", "a_test_with12_number", False),
         ("aTestWith12Number", "a_test_with_1_2_number", True),
         ("ATestWith12Number", "a_test_with_1_2_number", True),
+        ("_privateField", "_private_field", False),
+        ("_PrivateField", "_private_field", False),
     ],
 )
 def test_to_snake(test_str, expected_str, treat_digits_as_capitals):

@@ -15,4 +15,4 @@ class CamelBase(pydantic.BaseModel):
     between camel and snake case without having to add the configuration to the new model.
     """
 
-    model_config = pydantic.ConfigDict(alias_generator=to_camel, populate_by_name=True)  # type: ignore[attr-defined]
+    model_config = pydantic.ConfigDict(alias_generator=to_camel, populate_by_name=True)

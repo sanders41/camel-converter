@@ -132,9 +132,9 @@ def to_camel(snake_string: str) -> str:
     Returns:
         The string in camel case format. For example myVariable.
     """
-    words = _split_snake(snake_string)
+    prefix, words, suffix = _split_snake(snake_string)
 
-    return words[0] + "".join(word.title() for word in words[1:])
+    return prefix + words[0] + "".join(word.title() for word in words[1:]) + suffix
 
 
 @lru_cache(maxsize=4096)
@@ -151,14 +151,14 @@ def to_snake(camel_string: str, *, treat_digits_as_capitals: bool = False) -> st
     Returns:
         The string in snake case format. For example my_variable.
     """
-
-    def check_character(c: str) -> str:
-        if c.isupper() or (treat_digits_as_capitals and c.isdigit()):
-            return f"_{c}"
-        else:
-            return c
-
-    return "".join(check_character(c) for c in camel_string).lstrip("_").lower()
+    return "".join(
+        f"_{c}"
+        if i > 0
+        and camel_string[i - 1] != "_"
+        and (c.isupper() or (treat_digits_as_capitals and c.isdigit()))
+        else c
+        for i, c in enumerate(camel_string)
+    ).lower()
 
 
 @lru_cache(maxsize=4096)
@@ -171,13 +171,16 @@ def to_pascal(snake_string: str) -> str:
     Returns:
         The string in pascal case format. For example MyVariable.
     """
-    words = _split_snake(snake_string)
+    prefix, words, suffix = _split_snake(snake_string)
 
-    return "".join(word.title() for word in words)
+    return prefix + "".join(word.title() for word in words) + suffix
 
 
-def _split_snake(snake_string: str) -> list[str]:
-    return snake_string.split("_")
+def _split_snake(snake_string: str) -> tuple[str, list[str], str]:
+    core = snake_string.strip("_")
+    prefix = snake_string[: len(snake_string) - len(snake_string.lstrip("_"))]
+    suffix = snake_string[len(prefix) + len(core) :]
+    return prefix, core.split("_"), suffix
 
 
 def _convert_dict(data: dict[Any, Any], convert_key: Callable[[str], str]) -> dict[Any, Any]:

@@ -63,7 +63,7 @@ snake_case. The purpose of this package is to help convert between the two forma
   ```py
   from camel_converter import dict_to_camel
 
-  camel = to_camel({"my_string": "val 1"})
+  camel = dict_to_camel({"my_string": "val 1"})
   ```
 
   This will convert `{"my_string": "val 1"}` into `{"myString": "val 1"}` Non-string keys will be
@@ -101,7 +101,7 @@ snake_case. The purpose of this package is to help convert between the two forma
   ```py
   from camel_converter import dict_to_pascal
 
-  pascal = to_pascal({"my_string": "val 1"})
+  pascal = dict_to_pascal({"my_string": "val 1"})
   ```
 
   This will convert `{"my_string": "val 1"}` into `{"MyString": "val 1"}` Non-string keys will be
@@ -129,7 +129,7 @@ snake_case. The purpose of this package is to help convert between the two forma
 Inheriting the `Converter` adds `to_camel` and `from_camel` methods to your class
 
 ```py
-from camel_converrter import Converter
+from camel_converter import Converter
 
 
 class SomeClass(Converter):
@@ -140,18 +140,18 @@ class SomeClass(Converter):
 
 
 example = SomeClass()
-print(example)
+print(example.to_camel())
 ```
 
 This will print `{"someValue": "some value", "anotherValue": "another value"}`
 
 ```py
-from camel_converrter import Converter
+from camel_converter import Converter
 
 
 class SomeClass(Converter):
     def __init__(self, some_value: str) -> None:
-        self.some_value = "some value"
+        self.some_value = some_value
 
 
 example = SomeClass.from_camel({"someValue": "some value"})

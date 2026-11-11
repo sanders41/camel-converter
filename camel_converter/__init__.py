@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from functools import lru_cache, partial
+from functools import cached_property, lru_cache, partial
 from typing import Any, Self
 
 from camel_converter._version import VERSION
@@ -34,8 +34,11 @@ class Converter:
         """
         class_vars = {
             key: value
-            for key, value in self.__class__.__dict__.items()
-            if not key.startswith("_") and not callable(value)
+            for cls in reversed(type(self).__mro__)
+            for key, value in cls.__dict__.items()
+            if not key.startswith("_")
+            and not callable(value)
+            and not isinstance(value, (property, cached_property, classmethod, staticmethod))
         }
 
         return dict_to_camel({**class_vars, **self.__dict__})

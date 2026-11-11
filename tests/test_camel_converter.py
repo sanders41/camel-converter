@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from functools import cached_property
 
 import pytest
 
@@ -306,6 +307,40 @@ def test_data_class_to_camel():
     tester = SomeClass()
 
     assert tester.to_camel() == {"someValue": "some value", "anotherValue": "another value"}
+
+
+def test_class_to_camel_skips_descriptors():
+    class SomeClass(Converter):
+        some_value = "some value"
+
+        @property
+        def full_name(self) -> str:
+            return "full name"
+
+        @cached_property
+        def cached_name(self) -> str:
+            return "cached name"
+
+        @classmethod
+        def make(cls) -> "SomeClass":
+            return cls()
+
+        @staticmethod
+        def helper() -> int:
+            return 1
+
+    assert SomeClass().to_camel() == {"someValue": "some value"}
+
+
+def test_class_to_camel_inherited():
+    class Parent(Converter):
+        some_value = "parent value"
+        parent_only = "parent only"
+
+    class Child(Parent):
+        some_value = "child value"
+
+    assert Child().to_camel() == {"someValue": "child value", "parentOnly": "parent only"}
 
 
 def test_class_from_snake():

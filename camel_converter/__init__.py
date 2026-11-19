@@ -14,8 +14,13 @@ _CONTAINERS = (dict, list, tuple)
 class Converter:
     """Inheriting this class adds methods to convert class and instance variables."""
 
-    def to_camel(self) -> dict[str, Any]:
+    def to_camel(self, *, preserve_leading_trailing_underscore: bool = False) -> dict[str, Any]:
         """Converts to the class and instance variables into a camel case dict.
+
+        Args:
+            preserve_leading_trailing_underscore:
+                Whether to keep leading and trailing underscores. For example _my_variable would
+                become _myVariable rather than MyVariable. Defaults to False.
 
         Returns:
             A dictionary with they class and instance variable namess converted from snake case to
@@ -43,14 +48,22 @@ class Converter:
             and not isinstance(value, (property, cached_property, classmethod, staticmethod))
         }
 
-        return dict_to_camel({**class_vars, **self.__dict__})
+        return dict_to_camel(
+            {**class_vars, **self.__dict__},
+            preserve_leading_trailing_underscore=preserve_leading_trailing_underscore,
+        )
 
     @classmethod
-    def from_camel(cls, data: dict[str, Any]) -> Self:
+    def from_camel(
+        cls, data: dict[str, Any], *, preserve_leading_trailing_underscore: bool = False
+    ) -> Self:
         """Initialize a class with a dictionary of camel case variables.
 
         Args:
             data: The dictionary to convert
+            preserve_leading_trailing_underscore:
+                Whether to keep leading and trailing underscores. For example _myVariable would
+                become _my_variable rather than my_variable. Defaults to False.
 
         Returns:
             An instance of the class
@@ -66,16 +79,26 @@ class Converter:
 
             This will print `some value`
         """
-        return cls(**dict_to_snake(data))
+        return cls(
+            **dict_to_snake(
+                data, preserve_leading_trailing_underscore=preserve_leading_trailing_underscore
+            )
+        )
 
 
-def dict_to_camel(data: dict[Any, Any]) -> dict[Any, Any]:
+def dict_to_camel(
+    data: dict[Any, Any], *, preserve_leading_trailing_underscore: bool = False
+) -> dict[Any, Any]:
     """Converts dictionary keys from snake case to camel case.
 
     Only keys of type string are converted, any other type is left unchanged.
 
     Args:
-        data: The dictionary to convert
+        data:
+            The dictionary to convert
+        preserve_leading_trailing_underscore:
+            Whether to keep leading and trailing underscores. For example _my_variable would
+            become _myVariable rather than MyVariable. Defaults to False.
 
     Returns:
         A dictionary with they keys of type string converted from snake case to camel case
@@ -83,11 +106,19 @@ def dict_to_camel(data: dict[Any, Any]) -> dict[Any, Any]:
     Raises:
         TypeError: If data is not a dict
     """
-    return _convert_dict(data, to_camel)
+    return _convert_dict(
+        data,
+        partial(
+            to_camel, preserve_leading_trailing_underscore=preserve_leading_trailing_underscore
+        ),
+    )
 
 
 def dict_to_snake(
-    data: dict[Any, Any], *, treat_digits_as_capitals: bool = False
+    data: dict[Any, Any],
+    *,
+    treat_digits_as_capitals: bool = False,
+    preserve_leading_trailing_underscore: bool = False,
 ) -> dict[Any, Any]:
     """Converts dictionary keys from camel case or pascal case to snake case.
 
@@ -99,6 +130,9 @@ def dict_to_snake(
         treat_digits_as_capitals:
             Whether to treat digits as capitals. For example myVariable2 would become my_variable_2
             rather than my_variable2.
+        preserve_leading_trailing_underscore:
+            Whether to keep leading and trailing underscores. For example _myVariable would
+            become _my_variable rather than my_variable. Defaults to False.
 
     Returns:
         A dictionary with they keys of type string converted from camel case or pascal case to
@@ -107,19 +141,29 @@ def dict_to_snake(
     Raises:
         TypeError: If data is not a dict
     """
-    convert_key = (
-        partial(to_snake, treat_digits_as_capitals=True) if treat_digits_as_capitals else to_snake
+    return _convert_dict(
+        data,
+        partial(
+            to_snake,
+            treat_digits_as_capitals=treat_digits_as_capitals,
+            preserve_leading_trailing_underscore=preserve_leading_trailing_underscore,
+        ),
     )
-    return _convert_dict(data, convert_key)
 
 
-def dict_to_pascal(data: dict[Any, Any]) -> dict[Any, Any]:
+def dict_to_pascal(
+    data: dict[Any, Any], *, preserve_leading_trailing_underscore: bool = False
+) -> dict[Any, Any]:
     """Converts dictionary keys from snake case to pascal case.
 
     Only keys of type string are converted, any other type is left unchanged.
 
     Args:
-        data: The dictionary to convert
+        data:
+            The dictionary to convert
+        preserve_leading_trailing_underscore:
+            Whether to keep leading and trailing underscores. For example _my_variable would
+            become _MyVariable rather than MyVariable. Defaults to False.
 
     Returns:
         A dictionary with they keys of type string converted from snake case to pascal case
@@ -127,26 +171,40 @@ def dict_to_pascal(data: dict[Any, Any]) -> dict[Any, Any]:
     Raises:
         TypeError: If data is not a dict
     """
-    return _convert_dict(data, to_pascal)
+    return _convert_dict(
+        data,
+        partial(
+            to_pascal, preserve_leading_trailing_underscore=preserve_leading_trailing_underscore
+        ),
+    )
 
 
 @lru_cache(maxsize=4096)
-def to_camel(snake_string: str) -> str:
+def to_camel(snake_string: str, *, preserve_leading_trailing_underscore: bool = False) -> str:
     """Converts a snake case string to camel case.
 
     Args:
-        snake_string: String in snake case format. For example my_variable.
+        snake_string:
+            String in snake case format. For example my_variable.
+        preserve_leading_trailing_underscore:
+            Whether to keep leading and trailing underscores. For example _my_variable would
+            become _myVariable rather than MyVariable. Defaults to False.
 
     Returns:
         The string in camel case format. For example myVariable.
     """
-    prefix, words, suffix = _split_snake(snake_string)
+    prefix, words, suffix = _split_snake(snake_string, preserve_leading_trailing_underscore)
 
     return prefix + words[0] + "".join(word.title() for word in words[1:]) + suffix
 
 
 @lru_cache(maxsize=4096)
-def to_snake(camel_string: str, *, treat_digits_as_capitals: bool = False) -> str:
+def to_snake(
+    camel_string: str,
+    *,
+    treat_digits_as_capitals: bool = False,
+    preserve_leading_trailing_underscore: bool = False,
+) -> str:
     """Converts a camel case or pascal case string to snake case.
 
     Args:
@@ -155,10 +213,23 @@ def to_snake(camel_string: str, *, treat_digits_as_capitals: bool = False) -> st
         treat_digits_as_capitals:
             Whether to treat digits as capitals. For example myVariable2 would become my_variable_2
             rather than my_variable2.
+        preserve_leading_trailing_underscore:
+            Whether to keep leading and trailing underscores. For example _myVariable would
+            become _my_variable rather than my_variable. Defaults to False.
 
     Returns:
         The string in snake case format. For example my_variable.
     """
+    if not preserve_leading_trailing_underscore:
+        return (
+            "".join(
+                f"_{c}" if c.isupper() or (treat_digits_as_capitals and c.isdigit()) else c
+                for c in camel_string
+            )
+            .lstrip("_")
+            .lower()
+        )
+
     return "".join(
         f"_{c}"
         if i > 0
@@ -170,21 +241,30 @@ def to_snake(camel_string: str, *, treat_digits_as_capitals: bool = False) -> st
 
 
 @lru_cache(maxsize=4096)
-def to_pascal(snake_string: str) -> str:
+def to_pascal(snake_string: str, *, preserve_leading_trailing_underscore: bool = False) -> str:
     """Converts a snake case string to pascal case.
 
     Args:
-        snake_string: String in snake case format. For example my_variable.
+        snake_string:
+            String in snake case format. For example my_variable.
+        preserve_leading_trailing_underscore:
+            Whether to keep leading and trailing underscores. For example _my_variable would
+            become _MyVariable rather than MyVariable. Defaults to False.
 
     Returns:
         The string in pascal case format. For example MyVariable.
     """
-    prefix, words, suffix = _split_snake(snake_string)
+    prefix, words, suffix = _split_snake(snake_string, preserve_leading_trailing_underscore)
 
     return prefix + "".join(word.title() for word in words) + suffix
 
 
-def _split_snake(snake_string: str) -> tuple[str, list[str], str]:
+def _split_snake(
+    snake_string: str, preserve_leading_trailing_underscore: bool
+) -> tuple[str, list[str], str]:
+    if not preserve_leading_trailing_underscore:
+        return "", snake_string.split("_"), ""
+
     core = snake_string.strip("_")
     prefix = snake_string[: len(snake_string) - len(snake_string.lstrip("_"))]
     suffix = snake_string[len(prefix) + len(core) :]

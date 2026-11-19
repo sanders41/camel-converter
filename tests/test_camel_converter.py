@@ -74,10 +74,6 @@ from camel_converter import (
             {"test_convert": [1, "two", None, {"change_me": 3}]},
             {"testConvert": [1, "two", None, {"changeMe": 3}]},
         ),
-        (
-            {"_id": 1, "user_id": 2},
-            {"_id": 1, "userId": 2},
-        ),
     ],
 )
 def test_dict_to_camel(test_dict, expected):
@@ -246,9 +242,6 @@ def test_dict_converters_non_dict_raises(converter, test_data):
     [
         ("this_is_a_test", "thisIsATest"),
         ("this_is_a_12_test", "thisIsA12Test"),
-        ("_id", "_id"),
-        ("class_", "class_"),
-        ("__private_value", "__privateValue"),
     ],
 )
 def test_to_camel(test_str, expected_str):
@@ -260,8 +253,6 @@ def test_to_camel(test_str, expected_str):
     [
         ("this_is_a_test", "ThisIsATest"),
         ("this_is_a_12_test", "ThisIsA12Test"),
-        ("_id", "_Id"),
-        ("class_", "Class_"),
     ],
 )
 def test_to_pascal(test_str, expected_str):
@@ -276,8 +267,6 @@ def test_to_pascal(test_str, expected_str):
         ("aTestWith12Number", "a_test_with12_number", False),
         ("aTestWith12Number", "a_test_with_1_2_number", True),
         ("ATestWith12Number", "a_test_with_1_2_number", True),
-        ("_privateField", "_private_field", False),
-        ("_PrivateField", "_private_field", False),
     ],
 )
 def test_to_snake(test_str, expected_str, treat_digits_as_capitals):
@@ -352,3 +341,108 @@ def test_class_from_snake():
     tester = SomeClass.from_camel(data)
 
     assert tester.some_value == data["someValue"]
+
+
+@pytest.mark.parametrize(
+    "preserve, expected",
+    [(False, {"Id": 1, "userId": 2}), (True, {"_id": 1, "userId": 2})],
+)
+def test_dict_to_camel_leading_trailing_underscore(preserve, expected):
+    assert (
+        dict_to_camel({"_id": 1, "user_id": 2}, preserve_leading_trailing_underscore=preserve)
+        == expected
+    )
+
+
+@pytest.mark.parametrize(
+    "preserve, expected",
+    [(False, {"Id": 1, "UserId": 2}), (True, {"_Id": 1, "UserId": 2})],
+)
+def test_dict_to_pascal_leading_trailing_underscore(preserve, expected):
+    assert (
+        dict_to_pascal({"_id": 1, "user_id": 2}, preserve_leading_trailing_underscore=preserve)
+        == expected
+    )
+
+
+@pytest.mark.parametrize(
+    "preserve, expected",
+    [(False, {"id": 1, "user_id_2": 2}), (True, {"_id": 1, "user_id_2": 2})],
+)
+def test_dict_to_snake_leading_trailing_underscore(preserve, expected):
+    assert (
+        dict_to_snake(
+            {"_id": 1, "userId2": 2},
+            treat_digits_as_capitals=True,
+            preserve_leading_trailing_underscore=preserve,
+        )
+        == expected
+    )
+
+
+@pytest.mark.parametrize(
+    "test_str, expected_str, preserve",
+    [
+        ("_id", "Id", False),
+        ("class_", "class", False),
+        ("__private_value", "PrivateValue", False),
+        ("_id", "_id", True),
+        ("class_", "class_", True),
+        ("__private_value", "__privateValue", True),
+    ],
+)
+def test_to_camel_leading_trailing_underscore(test_str, expected_str, preserve):
+    assert to_camel(test_str, preserve_leading_trailing_underscore=preserve) == expected_str
+
+
+@pytest.mark.parametrize(
+    "test_str, expected_str, preserve",
+    [
+        ("_id", "Id", False),
+        ("class_", "Class", False),
+        ("_id", "_Id", True),
+        ("class_", "Class_", True),
+    ],
+)
+def test_to_pascal_leading_trailing_underscore(test_str, expected_str, preserve):
+    assert to_pascal(test_str, preserve_leading_trailing_underscore=preserve) == expected_str
+
+
+@pytest.mark.parametrize(
+    "test_str, expected_str, preserve",
+    [
+        ("_privateField", "private_field", False),
+        ("_PrivateField", "private_field", False),
+        ("_privateField", "_private_field", True),
+        ("_PrivateField", "_private_field", True),
+    ],
+)
+def test_to_snake_leading_trailing_underscore(test_str, expected_str, preserve):
+    assert to_snake(test_str, preserve_leading_trailing_underscore=preserve) == expected_str
+
+
+@pytest.mark.parametrize("preserve, expected", [(False, {"id": 1}), (True, {"id_": 1})])
+def test_class_to_camel_leading_trailing_underscore(preserve, expected):
+    class SomeClass(Converter):
+        def __init__(self) -> None:
+            self.id_ = 1
+
+    assert SomeClass().to_camel(preserve_leading_trailing_underscore=preserve) == expected
+
+
+def test_class_from_camel_strips_leading_underscore():
+    class SomeClass(Converter):
+        def __init__(self, some_value: int) -> None:
+            self.some_value = some_value
+
+    assert SomeClass.from_camel({"_someValue": 1}).some_value == 1
+
+
+def test_class_from_camel_preserves_leading_underscore():
+    class SomeClass(Converter):
+        def __init__(self, _some_value: int) -> None:
+            self.some_value = _some_value
+
+    tester = SomeClass.from_camel({"_someValue": 1}, preserve_leading_trailing_underscore=True)
+
+    assert tester.some_value == 1
